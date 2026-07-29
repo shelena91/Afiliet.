@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { getProdutos, saveProduto,uid,formatBRL } from '../lib/storage';
+import { getProdutos, saveProduto, deleteProduto, uid, formatBRL } from '../lib/storage';
 import { CATEGORIAS, type Categoria, type Produto } from '../types';
 import PageHeader from '../components/PageHeader';
 
@@ -180,5 +180,3 @@ function NovoProdutoModal({ onClose, onSave }: { onClose: () => void; onSave: (p
     </div>
   );
 }
-
-     
