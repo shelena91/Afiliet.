@@ -178,5 +178,6 @@ function NovoProdutoModal({ onClose, onSave }: { onClose: () => void; onSave: (p
         </div>
       </form>
     </div>
-  );
+);
 }
+
