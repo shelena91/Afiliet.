@@ -41,18 +41,42 @@ export default function Produtos() {
                 <a href={p.linkProduto} target="_blank" rel="noreferrer" className="truncate text-xs text-flow underline underline-offset-2">
                   abrir link do produto
                 </a>
-                <button
-                  onClick={() => { deleteProduto(p.id); refresh(); }}
-                  className="ml-3 shrink-0 text-xs text-muted"
-                >
-                  remover
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+                </a>
 
+                        <button
+                          onClick={() =>
+                            enviarParaFilaDeAnuncios({
+                              nome: p.nome,
+                              linkAfiliado: p.linkProduto,
+                              preco: String(p.precoCentavos),
+                              imagemUrl: p.imagemUrl ?? "",
+                              textoAnuncio: p.nome,
+                            })
+                          }
+                          className="botao-anuncio"
+                        >
+                          Enviar pra fila de anúncios
+                        </button>
+
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+          
+                          onClick={() =>
+                            enviarParaFilaDeAnuncios({
+                              nome: p.nome,
+                              linkAfiliado: p.linkProduto,
+                              preco: String(p.precoCentavos),
+                              imagemUrl: p.imagemUrl ?? "",
+                              textoAnuncio: p.nome,
+                            })
+                          }
+                          className="botao-anuncio"
+                        >
+                          Enviar pra fila de anúncios
+                        </button>
       {aberto && (
         <NovoProdutoModal
           onClose={() => setAberto(false)}
