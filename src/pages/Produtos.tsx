@@ -3,6 +3,31 @@ import { getProdutos, saveProduto, deleteProduto, uid, formatBRL } from '../lib/
 import { CATEGORIAS, type Categoria, type Produto } from '../types';
 import PageHeader from '../components/PageHeader';
 
+async function enviarParaFilaDeAnuncios(produto: {
+  nome: string;
+  linkAfiliado: string;
+  preco: string;
+  imagemUrl: string;
+  textoAnuncio: string;
+}) {
+  const WEBHOOK_URL = "https://hook.eu1.make.com/msmi5sfn0tp5i3drxofw84ste979h8gk";
+  try {
+    const res = await fetch(WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(produto),
+    });
+    if (res.ok) {
+      alert("Produto enviado para a fila de anúncios!");
+    } else {
+      alert("Erro ao enviar. Tente novamente.");
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Falha na conexão.");
+  }
+}
+
 export default function Produtos() {
   const [produtos, setProdutos] = useState(getProdutos());
   const [aberto, setAberto] = useState(false);
@@ -41,42 +66,27 @@ export default function Produtos() {
                 <a href={p.linkProduto} target="_blank" rel="noreferrer" className="truncate text-xs text-flow underline underline-offset-2">
                   abrir link do produto
                 </a>
-                </a>
 
-                        <button
-                          onClick={() =>
-                            enviarParaFilaDeAnuncios({
-                              nome: p.nome,
-                              linkAfiliado: p.linkProduto,
-                              preco: String(p.precoCentavos),
-                              imagemUrl: p.imagemUrl ?? "",
-                              textoAnuncio: p.nome,
-                            })
-                          }
-                          className="botao-anuncio"
-                        >
-                          Enviar pra fila de anúncios
-                        </button>
+                <button
+                  onClick={() =>
+                    enviarParaFilaDeAnuncios({
+                      nome: p.nome,
+                      linkAfiliado: p.linkProduto,
+                      preco: String(p.precoCentavos),
+                      imagemUrl: '',
+                      textoAnuncio: p.nome,
+                    })
+                  }
+                  className="text-xs text-flow underline underline-offset-2"
+                >
+                  Enviar pra fila de anúncios
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
 
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-          
-                          onClick={() =>
-                            enviarParaFilaDeAnuncios({
-                              nome: p.nome,
-                              linkAfiliado: p.linkProduto,
-                              preco: String(p.precoCentavos),
-                              imagemUrl: p.imagemUrl ?? "",
-                              textoAnuncio: p.nome,
-                            })
-                          }
-                          className="botao-anuncio"
-                        >
-                          Enviar pra fila de anúncios
-                        </button>
       {aberto && (
         <NovoProdutoModal
           onClose={() => setAberto(false)}
@@ -169,4 +179,5 @@ function NovoProdutoModal({ onClose, onSave }: { onClose: () => void; onSave: (p
       </form>
     </div>
   );
-}
+      }
+        
